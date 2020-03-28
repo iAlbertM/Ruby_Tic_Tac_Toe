@@ -15,11 +15,11 @@ end
 
 # check if position exists and is available
 def position_taken?(board, index)
-	if board[index] == "X" || board[index] == "O"
-		return true
-	elsif !(board[index] == "" || board[index] == " " || board[index] == nil)
+	if board[index] == "" || board[index] == " " || board[index] == nil
 		return false
-	end 
+	else
+		return true
+	end
 end
 
 def valid_move?(board, index)
@@ -32,13 +32,38 @@ end
 
 
 def move(board, position, player)
-	if valid_move?(board, position) == true
-		board[position] = player
-	end
-	puts "position: #{position}\nPlayer: #{player}"
-	player
+	board[position] = player
 end
 
+# ____________________
+#
+# TURN(BOARD)
+# ____________________
+
+def turn(board)
+	puts "Please enter 1-9:"
+  	input = gets.strip
+	index = input_to_index(input)
+	its_valid = valid_move?(board, index)
+	
+	if its_valid == true
+		c_player = current_player(board)
+		move(board, index, c_player)
+		display_board(board)
+		return "THE END"
+	end
+
+	until its_valid == true
+		puts "Please enter 1-9:"
+  		input = gets.strip
+		index = input_to_index(input)
+		its_valid = valid_move?(board, index)
+		if its_valid == true 
+			return "FINALLY THE END"
+		end
+	end
+	display_board(board)
+end
 
 # ____________________
 #
@@ -49,6 +74,7 @@ end
 # determine who's turn it is
 def turn_count(board)
 	turns = 9
+	current_turn = turns + 1
 	board.each do |element| 
 		if element == "X" || element == "O"
     		turns -= 1
@@ -75,21 +101,4 @@ def current_player(board)
 end
 
 
-# ____________________
-#
-# TURN(BOARD)
-# ____________________
 
-def turn(board, index)
-	if valid_move?(board, index) == true
-		c_player = current_player(board)
-	    move(board, index, c_player)
-	end
-	until valid_move?(board, index) == true
-		puts "Please enter 1-9:"
-  		input = gets.strip
-		index = input_to_index(input)
-		move(board, index, c_player)	  
-	  end
-	  display_board(board)
-end

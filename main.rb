@@ -8,10 +8,8 @@ puts 'Welcome to Tic Tac Toe!'
 
 board = ['X', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
 display_board(board)
-puts 'Where would you like to go?'
-input = gets.strip
-index = input_to_index(input)
-turn(board, index)
+
+turn(board)
 display_board(board)
 
 puts "end of round"
